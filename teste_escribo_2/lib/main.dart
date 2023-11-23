@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:teste_escribo_2/components/mybook.dart';
+import 'package:teste_escribo_2/data/bookdata.dart';
+import 'package:vocsy_epub_viewer/epub_viewer.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,119 +10,165 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      debugShowCheckedModeBanner: false,
+      home: HomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+class _HomePageState extends State<HomePage> {
+  List<BookData> books = [
+    BookData(
+      id: "1",
+      bookCover:
+          "https://www.gutenberg.org/cache/epub/72134/pg72134.cover.medium.jpg",
+      bookTitle: "The Bible of Nature",
+      author: "Oswald, Felix L.",
+      downloadUrl: "https://www.gutenberg.org/ebooks/72134.epub3.images",
+    ),
+    BookData(
+      id: "2",
+      bookCover:
+          "https://www.gutenberg.org/cache/epub/72127/pg72127.cover.medium.jpg",
+      bookTitle: "Kazan",
+      author: "Curwood, James Oliver",
+      downloadUrl: "https://www.gutenberg.org/ebooks/72127.epub.images",
+    ),
+    BookData(
+      id: "3",
+      bookCover:
+          "https://www.gutenberg.org/cache/epub/72126/pg72126.cover.medium.jpg",
+      bookTitle: "Mythen en sagen uit West-Indië",
+      author: "Cappelle, Herman van, Jr.",
+      downloadUrl: "https://www.gutenberg.org/ebooks/72126.epub.noimages",
+    ),
+    BookData(
+      id: "4",
+      bookCover:
+          "https://www.gutenberg.org/cache/epub/63606/pg63606.cover.medium.jpg",
+      bookTitle: "Lupe",
+      author: "Affonso Celso",
+      downloadUrl: "https://www.gutenberg.org/ebooks/63606.epub3.images",
+    ),
+    BookData(
+      id: "5",
+      bookCover:
+          "https://www.gutenberg.org/cache/epub/72135/pg72135.cover.medium.jpg",
+      bookTitle: "Nuorta ja vanhaa väkeä: Kokoelma kertoelmia",
+      author: "Fredrik Nycander",
+      downloadUrl: "https://www.gutenberg.org/ebooks/72135.epub3.images",
+    ),
+    BookData(
+      id: "6",
+      bookCover:
+          "https://www.gutenberg.org/cache/epub/18452/pg18452.cover.medium.jpg",
+      bookTitle: "Among the Mushrooms: A Guide For Beginners",
+      author: "Burgin and Dallas",
+      downloadUrl: "https://www.gutenberg.org/ebooks/18452.epub3.images",
+    ),
+    BookData(
+      id: "7",
+      bookCover:
+          "https://www.gutenberg.org/cache/epub/19218/pg19218.cover.medium.jpg",
+      bookTitle: "The History of England in Three Volumes, Vol.III.",
+      author: "Edward Farr and E. H. Nolan",
+      downloadUrl: "https://www.gutenberg.org/ebooks/19218.epub3.images",
+    ),
+    BookData(
+      id: "8",
+      bookCover:
+          "https://www.gutenberg.org/cache/epub/76/pg76.cover.medium.jpg",
+      bookTitle: "Adventures of Huckleberry Finn",
+      author: "Mark Twain",
+      downloadUrl: "https://www.gutenberg.org/ebooks/76.epub3.images",
+    ),
+    BookData(
+      id: "9",
+      bookCover:
+          "https://www.gutenberg.org/cache/epub/72133/pg72133.cover.medium.jpg",
+      bookTitle: "The octopus: or, The 'devil-fish' of fiction and of fact",
+      author: "Henry Lee",
+      downloadUrl: "https://www.gutenberg.org/ebooks/72133.epub3.images",
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        backgroundColor: Colors.blueGrey,
+        centerTitle: true,
+        title: Text("eBookReader"),
+        leading: IconButton(icon: Icon(Icons.menu), onPressed: () {}),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.favorite),
+            onPressed: () {},
+          ),
+        ],
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      body: SingleChildScrollView(
+          child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 18.0),
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Color(0xFFe6e6e6),
+                  prefixIcon: Icon(Icons.search),
+                  contentPadding: EdgeInsets.all(8.0),
+                  hintText: "Buscar",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              Text(
+                "Meus Livros",
+                style: TextStyle(
+                  fontSize: 20.0,
+                ),
+              ),
+              SizedBox(
+                height: 12.0,
+              ),
+              Container(
+                width: double.infinity,
+                height: 280.0,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    InkWell(
+                        child: myBook(books[0]),
+                        onTap: () {
+                          print(books[0].downloadUrl);
+                          VocsyEpub.openAsset(books[0].downloadUrl);
+                        }),
+                    myBook(books[1]),
+                    myBook(books[2]),
+                    myBook(books[3]),
+                  ],
+                ),
+              )
+            ]),
+      )),
     );
   }
 }
